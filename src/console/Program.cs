@@ -3,7 +3,6 @@
 
 using System;
 using System.Threading.Tasks;
-// using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 [AttributeUsage(AttributeTargets.Method)]
 sealed class MonoPInvokeCallbackAttribute : Attribute
