@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>.Net6.0 WebXR Wasm Sample</title>
+  </head>
+
+  <body>
+    <header>
+      <details open>
+        <summary>VR Sample</summary>
+        <p>
+          This sample demonstrates extremely simple use of an "immersive-vr"
+          session with .Net6.0. It doesn't render anything exciting.
+        </p>
+        <button id="xr-button" disabled>VR not found</button>
+      </details>
+    </header>
+    <main style="text-align: center">
+      <p>Click 'Enter VR' to see content</p>
+    </main>
+
+    <canvas id="xr-canvas" oncontextmenu="return false;" tabindex="1"></canvas>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+
+    <script src="app.js"></script>
+    <script type="text/javascript">
+      App.configure("xr-canvas", "Wasm.WebXR.Sample", "Program");
+
+      let xrButton = document.getElementById("xr-button");
+
+      // Is WebXR available on this UA?
+      if (navigator.xr) {
+        // If the device allows creation of exclusive sessions set it as the
+        // target of the 'Enter XR' button.
+        navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
+          if (supported) {
+            // Updates the button to start an XR session when clicked.
+            xrButton.addEventListener("click", onButtonClicked);
+            xrButton.textContent = "Enter VR";
+            xrButton.disabled = false;
+          }
+        });
+      }
+
+      // Called when the user clicks the button to enter XR. If we don't have a
+      // session we'll request one, and if we do have a session we'll end it.
+      function onButtonClicked() {
+        if (xrButton.textContent.includes("Enter")) {
+          App.enterImmersive("immersive-vr");
+          xrButton.textContent = "Exit VR";
+        } else {
+          App.exitImmersive();
+          xrButton.textContent = "Enter VR";
+        }
+      }
+    </script>
+  </body>
+</html>

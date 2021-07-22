@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<!-- <Project Sdk="Microsoft.NET.Runtime.WebAssembly.Sdk"> -->
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PublishTrimmed>false</PublishTrimmed>
+    <UsingBrowserRuntimeWorkload>true</UsingBrowserRuntimeWorkload>
+    <EmccFlags>-s EXPORTED_FUNCTIONS='["_xrOnFrameCbk"]';</EmccFlags>
+    <!-- <WasmBuildNative>true</WasmBuildNative> -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <NativeFileReference Include="libWebXR.o" ScanForPInvokes="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21369.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.6.21355.2" />
+    <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.6.21355.2" PrivateAssets="all" />
+    <PackageReference Include="System.Net.Http.Json" Version="6.0.0-preview.6.21352.12" /> -->
+  </ItemGroup>
+
+</Project>
