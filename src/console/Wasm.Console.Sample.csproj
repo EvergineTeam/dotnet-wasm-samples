@@ -3,10 +3,11 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PublishTrimmed>true</PublishTrimmed>
+    <PublishTrimmed>false</PublishTrimmed>
     <UsingBrowserRuntimeWorkload>true</UsingBrowserRuntimeWorkload>
     <!-- <WasmBuildNative>true</WasmBuildNative> -->
   </PropertyGroup>

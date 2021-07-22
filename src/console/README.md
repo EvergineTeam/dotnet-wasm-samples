@@ -1,6 +1,6 @@
 # Console wasm sample
 
-The sample shows how to build a small hello world wasm sample that links to a native external library.
+The sample shows how to build a small hello world wasm sample that uses a native external library that makes a callback to .Net
 
 The source code of the native library can be found at <https://github.com/emepetres/wasm-native-library-sandbox>.
 

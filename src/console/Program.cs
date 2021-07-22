@@ -5,13 +5,17 @@ using System;
 using System.Threading.Tasks;
 // using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
+[AttributeUsage(AttributeTargets.Method)]
+sealed class MonoPInvokeCallbackAttribute : Attribute
+{
+    public MonoPInvokeCallbackAttribute(Type t) { }
+}
+
 public class Test
 {
-    public static async Task<int> Main(string[] args)
+    public static unsafe int Main(string[] args)
     {
-        // var t = BrowserRequestCache.ForceCache;
-
-        await Task.Delay(1);
+        //await Task.Delay(1);
         Console.WriteLine("Hello World!");
         for (int i = 0; i < args.Length; i++)
         {
@@ -20,6 +24,15 @@ public class Test
 
         Console.WriteLine($"The answer to everything is {NativeBinding.hello()}");
 
+        NativeBinding.callCbk(cbk);
+        //NativeBinding.callCbk(&cbk);
+
         return args.Length;
+    }
+
+    [MonoPInvokeCallback(typeof(NativeBinding.callback))]
+    public static void cbk()
+    {
+        Console.WriteLine($"Hello from .Net6.0 callback!");
     }
 }
