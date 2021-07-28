@@ -1,5 +1,4 @@
 var Module = typeof Module !== "undefined" ? Module : {};
-
 let App = {
   mainCanvasId: undefined,
   configure: function (canvasId, assemblyName, className) {
