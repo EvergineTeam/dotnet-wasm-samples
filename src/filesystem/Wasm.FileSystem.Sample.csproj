@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UsingBrowserRuntimeWorkload>true</UsingBrowserRuntimeWorkload>
+    <!-- <WasmBuildNative>true</WasmBuildNative> -->
+    <!-- <RunAOTCompilation>true</RunAOTCompilation> -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <WasmFilesToIncludeInFileSystem Include="file.txt"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21401.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21381.3" />
+    <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21381.3" PrivateAssets="all" /> -->
+  </ItemGroup>
+
+</Project>
