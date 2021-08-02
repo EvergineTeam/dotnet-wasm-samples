@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PublishTrimmed>false</PublishTrimmed>
     <UsingBrowserRuntimeWorkload>true</UsingBrowserRuntimeWorkload>
     <!-- <WasmBuildNative>true</WasmBuildNative> -->
     <!-- <RunAOTCompilation>true</RunAOTCompilation> -->
@@ -19,5 +20,30 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21381.3" />
     <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21381.3" PrivateAssets="all" /> -->
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.8.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DataTarget>$(OutDir)/content.dat</DataTarget>
+    <Preload>./file.txt</Preload>
+    <JsOutput>$(OutDir)/content.js</JsOutput>
+    <NoHeapCopy>true</NoHeapCopy>
+  </PropertyGroup>
+
+  <Target Name="FilePackager" AfterTargets="Build">
+    <FilePackagerTask
+        DataTargetPath="$(DataTarget)"
+        PreloadPath="$(Preload)"
+        JsOutput="$(JsOutput)"
+        NoHeapCopy="$(NoHeapCopy)"
+        SeparateMetadata="$(SeparateMetadata)">
+    </FilePackagerTask>
+  </Target>
+
+  <UsingTask TaskName="FilePackagerTask"
+    AssemblyFile = "Wasm.FileSystem.Sample"
+    TaskFactory = "FilePackagerTask" />
 
 </Project>
