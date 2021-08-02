@@ -17,10 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21369.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.6.21355.2" />
-    <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.6.21355.2" PrivateAssets="all" />
-    <PackageReference Include="System.Net.Http.Json" Version="6.0.0-preview.6.21352.12" /> -->
+    <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21401.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21381.3" />
+    <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21381.3" PrivateAssets="all" /> -->
   </ItemGroup>
 
 </Project>
