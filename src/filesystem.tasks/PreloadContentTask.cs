@@ -35,10 +35,9 @@ public class PreloadContentTask : Microsoft.Build.Utilities.Task
         List<string> assetsList = new List<string>(Assets.Length);
         foreach (var asset in Assets)
         {
-            var path = Path.Combine(asset.GetMetadata("RelativeDir"), asset.GetMetadata("FileName"));
+            var path = asset.GetMetadata("RelativePath");
             assetsList.Add(path);
             Log.LogWarning(path);
-            Log.LogWarning(asset.GetMetadata("RelativePath"));
         }
 
         var jsonString = JsonSerializer.Serialize(assetsList);
