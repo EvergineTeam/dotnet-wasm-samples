@@ -19,8 +19,8 @@ public class Program
             Console.WriteLine($"args[{i}] = {args[i]}");
         }
 
-        // var file = File.ReadAllText("file.txt");
-        // Console.WriteLine(file);
+        var file = File.ReadAllText("assets/file.txt");
+        Console.WriteLine(file);
 
         return args.Length;
     }

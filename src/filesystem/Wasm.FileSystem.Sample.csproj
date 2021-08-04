@@ -9,16 +9,16 @@
     <UsingBrowserRuntimeWorkload>true</UsingBrowserRuntimeWorkload>
     <!-- <WasmBuildNative>true</WasmBuildNative> -->
     <!-- <RunAOTCompilation>true</RunAOTCompilation> -->
+    <!-- <WasmGenerateAppBundle>true</WasmGenerateAppBundle> -->
+    <WasmMainJSPath>wwwroot/main.js</WasmMainJSPath>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
-    <WasmFilesToIncludeInFileSystem Include="file.txt"/>
-  </ItemGroup> -->
+  <ItemGroup>
+    <WasmFilesToIncludeInFileSystem Include="wwwroot/assets/file.txt"/>
+  </ItemGroup>
 
   <ItemGroup>
-    <Assets Include="wwwroot/assets/**/*">
-      <RelativePath>assets/%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
-    </Assets>
+    <Assets Include="wwwroot/assets/**/*" />
   </ItemGroup>
 
   <!-- <ItemGroup>
@@ -39,14 +39,15 @@
   </PropertyGroup> -->
 
   <PropertyGroup>
-    <TestTargetDir Condition=" '$(MSBuildRuntimeType)' == 'Core' ">..\filesystem.tasks\bin\Debug\net6.0\</TestTargetDir>
-    <TestTargetDir Condition=" '$(MSBuildRuntimeType)' != 'Core' ">..\filesystem.tasks\bin\Debug\net472\</TestTargetDir>
+    <TasksDir>..\filesystem.tasks\</TasksDir>
+    <PreloadContentTaskAsmDir Condition=" '$(MSBuildRuntimeType)' == 'Core' ">$(TasksDir)bin\Debug\net6.0\</PreloadContentTaskAsmDir>
+    <PreloadContentTaskAsmDir Condition=" '$(MSBuildRuntimeType)' != 'Core' ">$(TasksDir)bin\Debug\net472\</PreloadContentTaskAsmDir>
   </PropertyGroup>
 
-  <UsingTask TaskName="PreloadContentTask" AssemblyFile = "$(TestTargetDir)Wasm.FileSystem.Tasks.dll"/>
+  <UsingTask TaskName="PreloadContentTask" AssemblyFile = "$(PreloadContentTaskAsmDir)Wasm.FileSystem.Tasks.dll"/>
 
   <Target Name="PreloadContent" BeforeTargets="ResolveRuntimePackAssets">
-    <PreloadContentTask Assets="@(Assets)" OutDir="$(IntermediateOutputPath)">
+    <PreloadContentTask Assets="@(Assets)" OutDir="$(IntermediateOutputPath)" MainJS="$(TasksDir)assets.js">
       <Output TaskParameter="GeneratedContentFile" ItemName="_GeneratedContentFile" />
     </PreloadContentTask>
 
@@ -54,7 +55,7 @@
       <FileWrites Include="$(_GeneratedContentFile)" />
       <_BuildAssetsJson
         Include="@(_GeneratedContentFile)"
-        RelativePath="assets.json" />
+        RelativePath="assets.js" />
     </ItemGroup>
 
     <DefineStaticWebAssets
@@ -77,7 +78,6 @@
       <StaticWebAsset Include="@(_ResolveCustomAssets)" />
     </ItemGroup>
 
-
     <DefineStaticWebAssets
       CandidateAssets="@(_BuildAssetsJson)"
       SourceId="$(PackageId)"
@@ -98,5 +98,42 @@
       <StaticWebAsset Include="@(_ResolvePublishCustomAssets)" />
     </ItemGroup>
   </Target>
+
+  <!-- <Target Name="CustomAppBundle" AfterTargets="_WasmGenerateAppBundle" BeforeTargets="_AfterWasmBuildApp">
+    <Error Condition="'$(WasmMainJSPath)' == ''" Text="%24(WasmMainJSPath) property needs to be set" />
+
+    <PropertyGroup>
+      <WasmIcuDataFileName Condition="'$(InvariantGlobalization)' != 'true'">icudt.dat</WasmIcuDataFileName>
+
+      <_HasDotnetWasm Condition="'%(WasmNativeAsset.FileName)%(WasmNativeAsset.Extension)' == 'dotnet.wasm'">true</_HasDotnetWasm>
+      <_HasDotnetJs Condition="'%(WasmNativeAsset.FileName)%(WasmNativeAsset.Extension)' == 'dotnet.js'">true</_HasDotnetJs>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <WasmNativeAsset Include="$(MicrosoftNetCoreAppRuntimePackRidNativeDir)dotnet.wasm" Condition="'$(_HasDotnetWasm)' != 'true'" />
+      <WasmNativeAsset Include="$(MicrosoftNetCoreAppRuntimePackRidNativeDir)dotnet.js" Condition="'$(_HasDotnetJs)' != 'true'" />
+
+      <WasmNativeAsset Include="$(MicrosoftNetCoreAppRuntimePackRidNativeDir)$(WasmIcuDataFileName)" Condition="'$(InvariantGlobalization)' != 'true'" />
+      <WasmNativeAsset Include="$(MicrosoftNetCoreAppRuntimePackRidNativeDir)dotnet.timezones.blat" />
+    </ItemGroup>
+
+    <WasmAppBuilder
+      AppDir="$(WasmAppDir)"
+      MainJS="$(WasmMainJSPath)"
+      Assemblies="@(_WasmAssembliesInternal)"
+      InvariantGlobalization="$(InvariantGlobalization)"
+      SatelliteAssemblies="@(_WasmSatelliteAssemblies)"
+      FilesToIncludeInFileSystem="@(WasmFilesToIncludeInFileSystem)"
+      IcuDataFileName="$(WasmIcuDataFileName)"
+      RemoteSources="@(WasmRemoteSources)"
+      ExtraFilesToDeploy="@(WasmExtraFilesToDeploy)"
+      ExtraConfig="@(WasmExtraConfig)"
+      NativeAssets="@(WasmNativeAsset)"
+      DebugLevel="$(WasmDebugLevel)">
+      <Output TaskParameter="FileWrites" ItemName="FileWrites" />
+    </WasmAppBuilder>
+
+    <CallTarget Targets="_GenerateRunV8Script" Condition="'$(WasmGenerateRunV8Script)' == 'true'" />
+  </Target> -->
 
 </Project>
