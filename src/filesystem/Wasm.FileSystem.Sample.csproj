@@ -1,14 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <ItemGroup>
-    <ProjectReference Include="..\filesystem.tasks\Wasm.FileSystem.Tasks.csproj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ProjectReference>
-  </ItemGroup>
-
-  <UsingTask TaskName="FilePackagerTask"
-    AssemblyFile = "$(OutDir)Wasm.FileSystem.Tasks.dll"/>
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
@@ -20,13 +11,19 @@
     <!-- <RunAOTCompilation>true</RunAOTCompilation> -->
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <WasmFilesToIncludeInFileSystem Include="file.txt"/>
-  </ItemGroup>
+  </ItemGroup> -->
 
   <ItemGroup>
-    <Content Include="file.txt" />
+    <Assets Include="wwwroot/assets/**/*">
+      <RelativePath>assets/%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+    </Assets>
   </ItemGroup>
+
+  <!-- <ItemGroup>
+    <Content Include="@(Assets)" />
+  </ItemGroup> -->
 
   <ItemGroup>
     <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21401.1" />
@@ -34,24 +31,72 @@
     <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21381.3" PrivateAssets="all" /> -->
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.8.0" />
-  </ItemGroup>
-
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <DataTarget>$(OutDir)wwwroot/content.dat</DataTarget>
     <Preload>$(OutDir)wwwroot/file.txt</Preload>
     <JsOutput>$(OutDir)wwwroot/content.js</JsOutput>
     <NoHeapCopy>true</NoHeapCopy>
+  </PropertyGroup> -->
+
+  <PropertyGroup>
+    <TestTargetDir Condition=" '$(MSBuildRuntimeType)' == 'Core' ">..\filesystem.tasks\bin\Debug\net6.0\</TestTargetDir>
+    <TestTargetDir Condition=" '$(MSBuildRuntimeType)' != 'Core' ">..\filesystem.tasks\bin\Debug\net472\</TestTargetDir>
   </PropertyGroup>
 
-  <Target Name="FilePackager" AfterTargets="Build">
-    <FilePackagerTask
-        DataTargetPath="$(DataTarget)"
-        PreloadPath="$(Preload)"
-        JsOutput="$(JsOutput)"
-        NoHeapCopy="$(NoHeapCopy)"
-        SeparateMetadata="$(SeparateMetadata)" />
+  <UsingTask TaskName="PreloadContentTask" AssemblyFile = "$(TestTargetDir)Wasm.FileSystem.Tasks.dll"/>
+
+  <Target Name="PreloadContent" BeforeTargets="ResolveRuntimePackAssets">
+    <PreloadContentTask Assets="@(Assets)" OutDir="$(IntermediateOutputPath)">
+      <Output TaskParameter="GeneratedContentFile" ItemName="_GeneratedContentFile" />
+    </PreloadContentTask>
+
+    <ItemGroup>
+      <FileWrites Include="$(_GeneratedContentFile)" />
+      <_BuildAssetsJson
+        Include="@(_GeneratedContentFile)"
+        RelativePath="assets.json" />
+    </ItemGroup>
+
+    <DefineStaticWebAssets
+      CandidateAssets="@(_BuildAssetsJson)"
+      SourceId="$(PackageId)"
+      SourceType="Computed"
+      AssetKind="Build"
+      AssetRole="Primary"
+      AssetTraitName="BlazorWebAssemblyResource"
+      AssetTraitValue="manifest"
+      CopyToOutputDirectory="PreserveNewest"
+      CopyToPublishDirectory="PreserveNewest"
+      ContentRoot="$(OutDir)wwwroot"
+      BasePath="$(StaticWebAssetBasePath)"
+      >
+      <Output TaskParameter="Assets" ItemName="_ResolveCustomAssets" />
+    </DefineStaticWebAssets>
+
+    <ItemGroup>
+      <StaticWebAsset Include="@(_ResolveCustomAssets)" />
+    </ItemGroup>
+
+
+    <DefineStaticWebAssets
+      CandidateAssets="@(_BuildAssetsJson)"
+      SourceId="$(PackageId)"
+      SourceType="Computed"
+      AssetKind="Publish"
+      AssetRole="Primary"
+      AssetTraitName="BlazorWebAssemblyResource"
+      AssetTraitValue="manifest"
+      CopyToOutputDirectory="PreserveNewest"
+      CopyToPublishDirectory="PreserveNewest"
+      ContentRoot="$(PublishDir)wwwroot"
+      BasePath="$(StaticWebAssetBasePath)"
+      >
+      <Output TaskParameter="Assets" ItemName="_ResolvePublishCustomAssets" />
+    </DefineStaticWebAssets>
+
+    <ItemGroup>
+      <StaticWebAsset Include="@(_ResolvePublishCustomAssets)" />
+    </ItemGroup>
   </Target>
 
 </Project>
