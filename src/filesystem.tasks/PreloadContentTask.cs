@@ -39,12 +39,13 @@ public class PreloadContentTask : Microsoft.Build.Utilities.Task
         List<string> assetsList = new List<string>(Assets.Length);
         foreach (var asset in Assets)
         {
-            var parentDir = asset.GetMetadata("RelativeDir").Replace('\\', '/').Substring("wwwroot/".Length);
             var fileName = asset.GetMetadata("Filename");
             var extension = asset.GetMetadata("Extension");
+            var url = asset.GetMetadata("RelativePath").Replace('\\', '/');
 
             var name = $"{fileName}{extension}";
-            var url = $"{parentDir}{name}";
+            var parentDir = url.Substring(0, url.Length - name.Length);
+
             assetsList.Add($"{{url:'{url}',path:'{parentDir}',name:'{name}'}}");
             Log.LogWarning(url);
         }

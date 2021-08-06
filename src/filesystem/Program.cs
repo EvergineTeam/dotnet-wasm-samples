@@ -19,7 +19,7 @@ public class Program
             Console.WriteLine($"args[{i}] = {args[i]}");
         }
 
-        var file = File.ReadAllText("assets/file.txt");
+        var file = File.ReadAllText("content/file.txt");
         Console.WriteLine(file);
 
         return args.Length;

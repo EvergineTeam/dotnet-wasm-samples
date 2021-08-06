@@ -18,25 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Assets Include="wwwroot/assets/**/*" />
+    <Assets Include="assets/**/*" />
   </ItemGroup>
-
-  <!-- <ItemGroup>
-    <Content Include="@(Assets)" />
-  </ItemGroup> -->
 
   <ItemGroup>
     <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21401.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21381.3" />
     <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21381.3" PrivateAssets="all" /> -->
   </ItemGroup>
-
-  <!-- <PropertyGroup>
-    <DataTarget>$(OutDir)wwwroot/content.dat</DataTarget>
-    <Preload>$(OutDir)wwwroot/file.txt</Preload>
-    <JsOutput>$(OutDir)wwwroot/content.js</JsOutput>
-    <NoHeapCopy>true</NoHeapCopy>
-  </PropertyGroup> -->
 
   <PropertyGroup>
     <TasksDir>..\filesystem.tasks\</TasksDir>
@@ -47,7 +36,29 @@
   <UsingTask TaskName="PreloadContentTask" AssemblyFile = "$(PreloadContentTaskAsmDir)Wasm.FileSystem.Tasks.dll"/>
 
   <Target Name="PreloadContent" BeforeTargets="ResolveRuntimePackAssets">
-    <PreloadContentTask Assets="@(Assets)" OutDir="$(IntermediateOutputPath)" MainJS="$(TasksDir)assets.js">
+    <ItemGroup>
+      <_Content
+        Include="@(Assets)"
+        RelativePath="content/%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <DefineStaticWebAssets
+      CandidateAssets="@(_Content)"
+      SourceId="$(PackageId)"
+      SourceType="Computed"
+      AssetKind="All"
+      AssetRole="Primary"
+      AssetTraitName="BlazorWebAssemblyResource"
+      AssetTraitValue="manifest"
+      CopyToOutputDirectory="PreserveNewest"
+      CopyToPublishDirectory="PreserveNewest"
+      ContentRoot="$(OutputPath)wwwroot"
+      BasePath="$(StaticWebAssetBasePath)"
+      >
+      <Output TaskParameter="Assets" ItemName="StaticWebAsset" />
+    </DefineStaticWebAssets>
+
+    <PreloadContentTask Assets="@(_Content)" OutDir="$(IntermediateOutputPath)" MainJS="$(TasksDir)assets.js">
       <Output TaskParameter="GeneratedContentFile" ItemName="_GeneratedContentFile" />
     </PreloadContentTask>
 
