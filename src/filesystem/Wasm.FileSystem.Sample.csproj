@@ -62,41 +62,17 @@
       CandidateAssets="@(_BuildAssetsJson)"
       SourceId="$(PackageId)"
       SourceType="Computed"
-      AssetKind="Build"
+      AssetKind="All"
       AssetRole="Primary"
       AssetTraitName="BlazorWebAssemblyResource"
       AssetTraitValue="manifest"
       CopyToOutputDirectory="PreserveNewest"
       CopyToPublishDirectory="PreserveNewest"
-      ContentRoot="$(OutDir)wwwroot"
+      ContentRoot="$(OutputPath)wwwroot"
       BasePath="$(StaticWebAssetBasePath)"
       >
-      <Output TaskParameter="Assets" ItemName="_ResolveCustomAssets" />
+      <Output TaskParameter="Assets" ItemName="StaticWebAsset" />
     </DefineStaticWebAssets>
-
-    <ItemGroup>
-      <StaticWebAsset Include="@(_ResolveCustomAssets)" />
-    </ItemGroup>
-
-    <DefineStaticWebAssets
-      CandidateAssets="@(_BuildAssetsJson)"
-      SourceId="$(PackageId)"
-      SourceType="Computed"
-      AssetKind="Publish"
-      AssetRole="Primary"
-      AssetTraitName="BlazorWebAssemblyResource"
-      AssetTraitValue="manifest"
-      CopyToOutputDirectory="PreserveNewest"
-      CopyToPublishDirectory="PreserveNewest"
-      ContentRoot="$(PublishDir)wwwroot"
-      BasePath="$(StaticWebAssetBasePath)"
-      >
-      <Output TaskParameter="Assets" ItemName="_ResolvePublishCustomAssets" />
-    </DefineStaticWebAssets>
-
-    <ItemGroup>
-      <StaticWebAsset Include="@(_ResolvePublishCustomAssets)" />
-    </ItemGroup>
   </Target>
 
   <!-- <Target Name="CustomAppBundle" AfterTargets="_WasmGenerateAppBundle" BeforeTargets="_AfterWasmBuildApp">
