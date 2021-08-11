@@ -19,16 +19,8 @@ public class PreloadContentTask : Microsoft.Build.Utilities.Task
     [Output]
     public ITaskItem GeneratedContentFile { get; set; }
 
-    // public string PreloadPath {get; set;} = null;
-    // public string JsOutput {get; set;} = null;
-
-    // public bool NoHeapCopy {get; set;} = false;
-    // public bool SeparateMetadata {get; set;} = false;
-
     public override bool Execute()
     {
-        Log.LogWarning(OutDir);
-
         if (Assets.Length == 0)
         {
             Log.LogError("Assets is empty.");
@@ -47,12 +39,9 @@ public class PreloadContentTask : Microsoft.Build.Utilities.Task
             var parentDir = url.Substring(0, url.Length - name.Length);
 
             assetsList.Add($"{{url:'{url}',path:'{parentDir}',name:'{name}'}}");
-            Log.LogWarning(url);
         }
 
         var assetsJS = $"var assets = [{string.Join(",", assetsList)}];\n{File.ReadAllText(MainJS)}";
-
-        //var jsonString = JsonSerializer.Serialize(assetsList);
 
         var outPath = Path.Combine(OutDir, "assets.js");
         File.WriteAllText(outPath, assetsJS);

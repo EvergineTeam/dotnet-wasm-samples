@@ -14,5 +14,31 @@
 
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="assets.js"></script>
+    <script type="text/javascript">
+      var Program = {
+        assemblyName: "Wasm.Filesystem.Sample",
+        className: "Program",
+        Run: function () {
+          this.invoke("Run", []);
+        },
+        invoke: function (methodName, args) {
+          BINDING.call_static_method(
+            `[${this.assemblyName}] ${this.className}:${methodName}`,
+            args
+          );
+        },
+      };
+
+      function waitAndRun() {
+        if (areAllAssetsLoaded()) {
+          console.log("Running...");
+          this.Program.Run();
+        } else {
+          setTimeout(waitAndRun, 100);
+        }
+      }
+
+      waitAndRun();
+    </script>
   </body>
 </html>
