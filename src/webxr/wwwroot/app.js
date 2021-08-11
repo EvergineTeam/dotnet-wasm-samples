@@ -42,11 +42,10 @@ let App = {
   },
   updateCanvasSize: function () {
     let devicePixelRatio = window.devicePixelRatio || 1;
-    $(`#${this.mainCanvasId}`)
-      .css("width", window.innerWidth + "px")
-      .css("height", window.innerHeight + "px")
-      .prop("width", window.innerWidth * devicePixelRatio)
-      .prop("height", window.innerHeight * devicePixelRatio);
+    Module.canvas.style.width = window.innerWidth + "px";
+    Module.canvas.style.height = window.innerHeight + "px";
+    Module.canvas.width = window.innerWidth * devicePixelRatio;
+    Module.canvas.height = window.innerHeight * devicePixelRatio;
   },
   Program: {
     assemblyName: undefined,
