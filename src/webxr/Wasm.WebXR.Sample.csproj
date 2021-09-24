@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PublishTrimmed>false</PublishTrimmed>
-    <UsingBrowserRuntimeWorkload>true</UsingBrowserRuntimeWorkload>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">false</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Release'">true</PublishTrimmed>
+    <BlazorEnableCompression Condition="'$(Configuration)' == 'Debug'">false</BlazorEnableCompression>
+    <!-- <RunAOTCompilation>true</RunAOTCompilation>
+    <AOTMode>LLVMOnly</AOTMode> -->
+  </PropertyGroup>
+
+  <PropertyGroup>
     <EmccFlags>-s EXPORTED_FUNCTIONS='["_xrOnFrameCbk"]';</EmccFlags>
-    <!-- <WasmBuildNative>true</WasmBuildNative> -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,9 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Update="Microsoft.NETCore.App" RuntimeFrameworkVersion="6.0.0-rc.1.21401.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.21381.3" />
-    <!-- <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.21381.3" PrivateAssets="all" /> -->
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.2.21470.25" />
   </ItemGroup>
 
 </Project>

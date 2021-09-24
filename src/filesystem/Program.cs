@@ -1,13 +1,10 @@
-using System;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-
 
 public class Program
 {
     public static int Main(string[] args)
     {
-
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
         builder.Build().RunAsync();

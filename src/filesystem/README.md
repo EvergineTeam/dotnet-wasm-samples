@@ -6,17 +6,21 @@ The source code of the native library can be found at <https://github.com/emepet
 
 ## Setup
 
-1. Download and extract latest .Net SDK from <https://aka.ms/dotnet/6.0/daily/dotnet-sdk-win-x64.zip>
-1. `[RUNTIME_PATH]\dotnet.exe workload install wasm-tools`
+1. Download and install latest .Net SDK from <https://dotnet.microsoft.com/download/dotnet/6.0>
+1. `dotnet workload install wasm-tools --skip-manifest-update`
 
 ## Build
 
-Go to _src\filesystem_ folder and run
+1. Go to _src\filesystem.tasks_ and run
 
-`[RUNTIME_PATH]\dotnet.exe publish` or
+`dotnet build`
 
-`[RUNTIME_PATH]\dotnet.exe publish -v diag > publish.log`
+2. Go to _src\filesystem_ folder and run
+
+`dotnet publish -c [Debug|Release]` or
+
+`dotnet publish -c [Debug|Release] -v diag > publish.log`
 
 ## Run
 
-Execute a static web server from _src\filesystem\bin\Debug\net6.0\publish\wwwroot_
+Execute a static web server from _src\filesystem\bin\[Debug|Release]\net6.0\publish\wwwroot_
