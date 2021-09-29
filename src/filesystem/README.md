@@ -1,4 +1,4 @@
-# Console wasm sample
+# Virtual File System sample
 
 The sample shows an implementation to use virtual file system from .Net.
 

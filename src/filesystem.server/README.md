@@ -1,4 +1,4 @@
-# Console wasm sample
+# Production server sample
 
 The sample shows how to publish a wasm app on production with file compression.
 
