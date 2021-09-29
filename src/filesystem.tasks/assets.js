@@ -29,8 +29,14 @@ function loadAsset(asset) {
   xhr.open("GET", asset.url, true);
   xhr.responseType = "blob";
   xhr.onprogress = function (event) {
+    let contentLength;
+    if (event.lengthComputable) {
+      contentLength = event.total;
+    } else {
+      contentLength = asset.size; // original size
+    }
     progressSum -= assetsProgress[asset.url];
-    assetsProgress[asset.url] = event.loaded / event.total;
+    assetsProgress[asset.url] = event.loaded / contentLength;
     progressSum += assetsProgress[asset.url];
     if (Module["setProgress"])
       Module["setProgress"]((progressSum / assetsLength) * 100);
@@ -82,15 +88,24 @@ function saveFile(parentDirectory, fileName, data) {
     );
   }
   assetsLoaded += 1;
+  if (areAllAssetsLoaded()) {
+    console.log(`...FS completed.`);
+  }
 }
 
 function areAllAssetsLoaded() {
   return assetsLength == assetsLoaded;
 }
 
+// Hack for random dotnet failure when creating files
+window.HEAP8 = {
+  buffer: 0,
+};
+
 // This runs the promise code
 ensureFilesystemIsSet(timeout_ms)
   .then(() => {
+    console.log(`Loading ${assets.length} files to FS...`);
     assets.forEach((asset) => loadAsset(asset));
   })
   .catch((e) => {

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wasm.FileSystem.Tasks", "filesystem.tasks\Wasm.FileSystem.Tasks.csproj", "{FCC8B948-EB3C-4B13-ADD0-02D096D8BBA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wasm.FileSystem.Sample", "filesystem\Wasm.FileSystem.Sample.csproj", "{76C7429A-47F5-4FDF-AC84-38ED583A2634}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCC8B948-EB3C-4B13-ADD0-02D096D8BBA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC8B948-EB3C-4B13-ADD0-02D096D8BBA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC8B948-EB3C-4B13-ADD0-02D096D8BBA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC8B948-EB3C-4B13-ADD0-02D096D8BBA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76C7429A-47F5-4FDF-AC84-38ED583A2634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C7429A-47F5-4FDF-AC84-38ED583A2634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C7429A-47F5-4FDF-AC84-38ED583A2634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C7429A-47F5-4FDF-AC84-38ED583A2634}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBEB7801-98C1-486A-8025-BDC73B62B7E8}
+	EndGlobalSection
+EndGlobal

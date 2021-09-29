@@ -1,23 +1,37 @@
 # WebXR wasm sample
 
-The sample shows how to build a small webxr hello world wasm sample on .Net.
+The sample shows how to build a small WebXR sample on .Net wasm.
 It does not render anything, just reads the device position, orientation and projection matrix.
 
-The source code of the webxr native library is not published yet, but it will.
+The source code of the webxr native library is not published yet, but it will be soon.
 
-## Setup
+## Prerequisites
 
-1. Download and install latest .Net SDK from <https://dotnet.microsoft.com/download/dotnet/6.0>
-1. `dotnet workload install wasm-tools --skip-manifest-update`
+- (Optional - Recommended) Visual Studio 2022
+- (Required without VS2022) [Download](https://github.com/dotnet/installer#installers-and-binaries) latest dotnet nightly SDK release.
+- Install wasm-tools (root terminal): `dotnet workload install wasm-tools --skip-manifest-update`
 
 ## Build
 
-Go to _src\webxr_ folder and run
+Use VS2022 _src/webxr.sln_ solution or VSCode/Terminal.
 
-`dotnet publish -c [Debug|Release]` or
-
-`dotnet publish -c [Debug|Release] -v diag > publish.log`
+`dotnet build -c [Debug|Release]`
 
 ## Run
 
-Execute a static web server from _src\webxr\bin\[Debug|Release]\net6.0\publish\wwwroot_
+From VS2022 you can run the profile `Wasm.WebXR.Sample`. Additionally you can publish the app
+
+`dotnet publish -c [Debug|Release]`
+
+and run the app by populating the folder _src\webxr\bin\[Debug|Release]\net6.0\publish\wwwroot_.
+
+In this second case we do recommend to use VSCode Live Server, instead of Fenix, as the second has known issues with Web Assembly.
+
+### Debug
+
+Debug is in an experimental phase and currently some workarounds are needed to make it work.
+
+1. Install Visual Studio 2022.
+1. [Install latest rc2 sdk](https://aka.ms/dotnet/6.0.1XX-rc2/daily/dotnet-sdk-win-x64.exe).
+1. Go to `C:\Program Files\dotnet\packs\Microsoft.NET.Runtime.MonoTargets.Sdk` and copy the folder `6.0.0-rc2.X.X/tasks/net472` to `6.0.0-rtm.X/tasks/net472`
+1. Finally clean and rebuild the projects from VS2022. After that you will be able to put a break point and debug your Wasm .Net6 app.

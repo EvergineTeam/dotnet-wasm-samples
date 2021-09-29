@@ -6,7 +6,6 @@ public class Program
     public static int Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
         builder.Build().RunAsync();
 
         Console.WriteLine("Wasm Ready!");

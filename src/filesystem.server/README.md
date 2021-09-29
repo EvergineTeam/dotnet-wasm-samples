@@ -1,6 +1,6 @@
 # Console wasm sample
 
-The sample shows how to build a small hello world wasm .Net6 sample.
+The sample shows how to publish a wasm app on production with file compression.
 
 ## Prerequisites
 
@@ -10,19 +10,27 @@ The sample shows how to build a small hello world wasm .Net6 sample.
 
 ## Build
 
-Use VS2022 _src/console.sln_ solution or VSCode/Terminal.
+Use VS2022 _src/filesystem-server.sln_ solution to build tasks project, then build the server project. You can also use VSCode/Terminal:
 
-`dotnet build -c [Debug|Release]`
+`dotnet build src\filesystem.tasks\Wasm.FileSystem.Tasks.csproj`
+`dotnet build -c [Debug|Release] src\filesystem\Wasm.FileSystem.Server.csproj`
 
 ## Run
 
-From VS2022 you can run the profile `Wasm.Console.Sample`. Additionally you can publish the app
+From VS2022 you can run the profile `Wasm.FileSystem.Server`. Additionally you can publish the app
 
-`dotnet publish -c [Debug|Release]`
+`dotnet publish -c [Debug|Release] src\filesystem\Wasm.FileSystem.Sample.csproj`
 
-and run the app by populating the folder _src\console\bin\[Debug|Release]\net6.0\publish\wwwroot_.
+and run the app by populating the folder _src\filesystem\bin\[Debug|Release]\net6.0\publish\wwwroot_.
 
 In this second case we do recommend to use VSCode Live Server, instead of Fenix, as the second has known issues with Web Assembly.
+
+## Publish
+
+From VS2022 you can publish the Server project to an Azure Web App. You will need to publish it as a self-contained app, because .Net6 rc2 is not supported for now.
+Alternatively you can publish the app using VSCode/Terminal:
+
+`dotnet publish -c Release -r win-x86 --self-contained src\filesystem.server\Wasm.FileSystem.Server.csproj`
 
 ### Debug
 

@@ -1,6 +1,8 @@
-# Console wasm sample
+# Console native wasm sample
 
-The sample shows how to build a small hello world wasm .Net6 sample.
+The sample shows how to build a small hello world wasm sample that uses a native external library that makes a callback to .Net
+
+The source code of the native library can be found at <https://github.com/emepetres/wasm-native-library-sandbox>.
 
 ## Prerequisites
 
@@ -10,17 +12,17 @@ The sample shows how to build a small hello world wasm .Net6 sample.
 
 ## Build
 
-Use VS2022 _src/console.sln_ solution or VSCode/Terminal.
+Use VS2022 _src/console-native.sln_ solution or VSCode/Terminal.
 
 `dotnet build -c [Debug|Release]`
 
 ## Run
 
-From VS2022 you can run the profile `Wasm.Console.Sample`. Additionally you can publish the app
+From VS2022 you can run the profile `Wasm.ConsoleNative.Sample`. Additionally you can publish the app
 
 `dotnet publish -c [Debug|Release]`
 
-and run the app by populating the folder _src\console\bin\[Debug|Release]\net6.0\publish\wwwroot_.
+and run the app by populating the folder _src\console-native\bin\[Debug|Release]\net6.0\publish\wwwroot_.
 
 In this second case we do recommend to use VSCode Live Server, instead of Fenix, as the second has known issues with Web Assembly.
 

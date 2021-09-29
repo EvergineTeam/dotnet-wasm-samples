@@ -10,35 +10,36 @@
   </head>
 
   <body>
-    <div id="app">Hi! Check web console to see if the sample is working!</div>
+      <div>Hi! This sample loads an external file (assets/file.txt) into the file system. Then it is read from .Net and printed on the console.</div>
+      <div>Check the console to know the answer to life the universe and everything!</div>
 
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script src="assets.js"></script>
-    <script type="text/javascript">
-      var Program = {
-        assemblyName: "Wasm.Filesystem.Sample",
-        className: "Program",
-        Run: function () {
-          this.invoke("Run", []);
-        },
-        invoke: function (methodName, args) {
-          BINDING.call_static_method(
-            `[${this.assemblyName}] ${this.className}:${methodName}`,
-            args
-          );
-        },
-      };
+      <script src="_framework/blazor.webassembly.js"></script>
+      <script src="assets.js"></script>
+      <script type="text/javascript">
+          var Program = {
+              assemblyName: "Wasm.Filesystem.Sample",
+              className: "Program",
+              Run: function () {
+                  this.invoke("Run", []);
+              },
+              invoke: function (methodName, args) {
+                  BINDING.call_static_method(
+                      `[${this.assemblyName}] ${this.className}:${methodName}`,
+                      args
+                  );
+              },
+          };
 
-      function waitAndRun() {
-        if (areAllAssetsLoaded()) {
-          console.log("Running...");
-          this.Program.Run();
-        } else {
-          setTimeout(waitAndRun, 100);
-        }
-      }
+          function waitAndRun() {
+              if (areAllAssetsLoaded()) {
+                  console.log("Running...");
+                  this.Program.Run();
+              } else {
+                  setTimeout(waitAndRun, 100);
+              }
+          }
 
-      waitAndRun();
-    </script>
+          waitAndRun();
+      </script>
   </body>
 </html>

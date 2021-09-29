@@ -34,11 +34,13 @@ public class PreloadContentTask : Microsoft.Build.Utilities.Task
             var fileName = asset.GetMetadata("Filename");
             var extension = asset.GetMetadata("Extension");
             var url = asset.GetMetadata("RelativePath").Replace('\\', '/');
+            var path = asset.GetMetadata("FullPath");
 
             var name = $"{fileName}{extension}";
             var parentDir = url.Substring(0, url.Length - name.Length);
+            var size = new FileInfo(path).Length;
 
-            assetsList.Add($"{{url:'{url}',path:'{parentDir}',name:'{name}'}}");
+            assetsList.Add($"{{url:'{url}',path:'{parentDir}',name:'{name}',size:{size}}}");
         }
 
         var assetsJS = $"var assets = [{string.Join(",", assetsList)}];\n{File.ReadAllText(MainJS)}";
