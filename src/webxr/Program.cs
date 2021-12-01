@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public static class Program
 {
     private static bool ready;
-    private static IWebXR webxr;
+    private static WebXR webxr;
     private static bool isRunning;
     private static ViewProperties viewProperties;
 
@@ -50,7 +50,7 @@ public static class Program
                 if (antedecent.Result)
                 {
                     isRunning = true;
-                    webxr.RequestAnimationFrame();
+                    webxr.StartRequestAnimationFrame();
                 }
             });
     }
@@ -62,6 +62,7 @@ public static class Program
             return;
         }
 
+        webxr.StopRequestAnimationFrame();
         isRunning = false;
         webxr.EndImmersiveSession();
     }
@@ -79,7 +80,6 @@ public static class Program
                 {
                     Console.WriteLine("Render callback!");
                 }
-                webxr.RequestAnimationFrame();
             }
         }
         catch (Exception exception)

@@ -9,7 +9,9 @@ sealed class MonoPInvokeCallbackAttribute : Attribute
     public MonoPInvokeCallbackAttribute(Type t) { }
 }
 
-public class WebXR : IWebXR
+public delegate void xrFrameCallback(double ms);
+
+public class WebXR
 {
     private const string DllName = "libWebXR";
 
@@ -46,9 +48,15 @@ public class WebXR : IWebXR
     private static extern void xrEndImmersiveSession();
 
     // Singleton
+    private static WebXR _instance;
     public static WebXR GetInstance()
     {
-        return new WebXR();
+        if (_instance == null)
+        {
+            _instance = new WebXR();
+        }
+
+        return _instance;
     }
 
     public unsafe void Init(xrFrameCallback onFrame)
@@ -73,8 +81,11 @@ public class WebXR : IWebXR
         return true;
     }
 
-    public void RequestAnimationFrame() =>
-        xrRequestAnimationFrame(this.OnFrame);
+    public void StartRequestAnimationFrame() =>
+            xrRequestAnimationFrame(this.OnFrame);
+
+    public void StopRequestAnimationFrame() =>
+        xrRequestAnimationFrame(null);
 
     public unsafe bool SetViewerPose(ref ViewProperties p)
     {
